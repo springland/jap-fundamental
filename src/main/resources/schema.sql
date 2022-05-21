@@ -49,6 +49,39 @@ create table embedded.tbl_customer (
     state_name  varchar(100),
     zipcode varchar(100)
 
+);
+
+
+create schema onetoone ;
+
+create table onetoone.tbl_capital
+(
+    id BIGINT auto_increment ,
+    name varchar(100)
+
+);
+
+
+create table onetoone.tbl_country
+(
+    id BIGINT auto_increment ,
+    name varchar(100) ,
+    capital_id BIGINT,
+    foreign key (capital_id) references  tbl_capital(id)
+
+);
+
+create table onetoone.tbl_person (
+    id BIGINT auto_increment ,
+    name varchar(100)
+);
+
+create table onetoone.tbl_finger_print (
+    id BIGINT auto_increment ,
+    data varchar(100) ,
+    person_id BIGINT ,
+    foreign key ( person_id) references tbl_person(id)
+
 )
 
 
