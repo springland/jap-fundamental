@@ -82,6 +82,25 @@ create table onetoone.tbl_finger_print (
     person_id BIGINT ,
     foreign key ( person_id) references tbl_person(id)
 
-)
+);
+
+create schema onetomany ;
+
+
+create table onetomany.tbl_person (
+    id BIGINT auto_increment ,
+    name varchar(100)
+
+);
+
+
+create table onetomany.tbl_phone (
+    id BIGINT auto_increment ,
+    number varchar(100) ,
+    type varchar(100),
+    person_id bigint ,
+    foreign key ( person_id) references tbl_person(id)
+
+);
 
 
