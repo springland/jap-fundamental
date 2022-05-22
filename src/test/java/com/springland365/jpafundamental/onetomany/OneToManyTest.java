@@ -54,4 +54,40 @@ public class OneToManyTest {
             );
 
     }
+
+    @Test
+    @Transactional
+    public void testBiDirection()
+    {
+        Country usa = new Country();
+        usa.setName("USA");
+
+        State ct = new State();
+        ct.setName("CT");
+        ct.setCountry(usa);
+
+        State ma = new State();
+        ma.setName("MA");
+        ma.setCountry(usa);
+
+        State ny = new State();
+        ny.setName("NY");
+        ny.setCountry(usa);
+
+        usa.setStates(Stream.of(ct , ma , ny).collect(Collectors.toList()));
+
+        em.persist(usa);
+
+        em.detach(usa);
+
+        Country country = em.find(Country.class , usa.getId());
+        assertEquals(country.getStates().size() , 3);
+
+
+        State state = em.find(State.class , ma.getId());
+        assertEquals(state.getCountry().getId() , usa.getId());
+        assertEquals(state.getCountry().getName() , "USA");
+
+
+    }
 }

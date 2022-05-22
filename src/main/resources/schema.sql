@@ -104,3 +104,15 @@ create table onetomany.tbl_phone (
 );
 
 
+create table onetomany.tbl_country (
+    id BIGINT auto_increment ,
+    name varchar(100)
+
+);
+
+create table onetomany.tbl_state (
+    id BIGINT auto_increment ,
+    name varchar(100),
+    country_id BIGINT
+
+);
