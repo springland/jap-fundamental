@@ -116,3 +116,28 @@ create table onetomany.tbl_state (
     country_id BIGINT
 
 );
+
+
+create schema manytomany ;
+
+
+create table manytomany.tbl_author (
+    id BIGINT auto_increment ,
+    name varchar(100)
+);
+
+create table manytomany.tbl_book (
+    id BIGINT auto_increment ,
+    title varchar(100),
+    isbn varchar(100),
+    publish_date  date
+);
+
+create table manytomany.tbl_author_book (
+    author_id BIGINT ,
+    book_id BIGINT ,
+    foreign key (author_id) references tbl_author(id),
+    foreign key (book_id) references tbl_book(id)
+
+);
+
