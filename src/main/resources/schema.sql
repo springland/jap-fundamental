@@ -141,3 +141,26 @@ create table manytomany.tbl_author_book (
 
 );
 
+
+create table manytomany.tbl_student (
+    id BIGINT auto_increment,
+    name varchar(100)
+
+);
+
+
+create table manytomany.tbl_course (
+    id BIGINT auto_increment,
+    name varchar(100),
+    deadline date
+);
+
+
+create table manytomany.tbl_course_registration (
+    id BIGINT auto_increment ,
+
+    student_id BIGINT ,
+    course_id  BIGINT ,
+    registration_date date
+);
+

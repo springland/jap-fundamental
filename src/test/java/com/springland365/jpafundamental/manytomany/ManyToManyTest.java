@@ -5,7 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -89,5 +92,99 @@ public class ManyToManyTest {
         assertEquals(book.getAuthors().get(0).getName() , timMcNamar.getName());
 
 
+    }
+
+
+    @Test
+    @Transactional
+    public void testCourseRegistration()
+    {
+        Student tom = new Student();
+        tom.setName("tom");
+
+        Student peter = new Student();
+        peter.setName("peter");
+
+        Student jay = new Student();
+        jay.setName("jay");
+
+        Course cpp = new Course();
+        cpp.setName("c++");
+        cpp.setRegistrationDeadLine(LocalDate.of(2022 , 06 ,30));
+
+        Course java = new Course();
+        java.setName("java");
+        java.setRegistrationDeadLine(LocalDate.of(2022 , 07 ,31));
+
+        Course python = new Course();
+        python.setName("python");
+        java.setRegistrationDeadLine(LocalDate.of(2022 , 8 ,31));
+
+
+        CourseRegistration  reg1  = new CourseRegistration();
+        reg1.setCourse(cpp);
+        reg1.setStudent(tom);
+        reg1.setRegistrationDate(LocalDate.of(2022 , 3 , 1));
+
+
+        CourseRegistration reg2 = new CourseRegistration();
+        reg2.setCourse(java);
+        reg2.setStudent(tom);
+        reg2.setRegistrationDate(LocalDate.of(2022 , 3 , 1));
+
+
+        CourseRegistration reg3 = new CourseRegistration();
+        reg3.setCourse(python);
+        reg3.setStudent(tom);
+        reg3.setRegistrationDate(LocalDate.of(2022 , 3 , 1));
+
+
+        CourseRegistration reg4 = new CourseRegistration();
+        reg4.setCourse(java);
+        reg4.setStudent(peter);
+        reg4.setRegistrationDate(LocalDate.of(2022 , 3 , 15));
+
+
+        CourseRegistration reg5 = new CourseRegistration();
+        reg5.setCourse(python);
+        reg5.setStudent(peter);
+        reg5.setRegistrationDate(LocalDate.of(2022 , 3 , 15));
+
+
+        CourseRegistration reg6 = new CourseRegistration();
+        reg6.setCourse(python);
+        reg6.setStudent(jay);
+        reg6.setRegistrationDate(LocalDate.of(2022 , 4 , 15));
+
+
+        tom.setCourseRegistrations(Stream.of(reg1 , reg2 , reg3).collect(Collectors.toList()));
+
+        peter.setCourseRegistrations(Stream.of(reg4 , reg5).collect(Collectors.toList()));
+
+        jay.setCourseRegistrations(Stream.of(reg6).collect(Collectors.toList()));
+
+        cpp.setRegistrations(Stream.of(reg1).collect(Collectors.toList()));
+
+        java.setRegistrations(Stream.of(reg2 , reg4).collect(Collectors.toList()));
+
+        python.setRegistrations(Stream.of(reg3 , reg5 , reg6).collect(Collectors.toList()));
+
+        em.persist(reg1);
+        em.persist(reg2);
+        em.persist(reg3);
+        em.persist(reg4);
+        em.persist(reg5);
+        em.persist(reg6);
+        Course course = em.find(Course.class , python.getId());
+        assertEquals(course.getRegistrations().size() , 3);
+        List<String> studentNames = course.registrations.stream().map( r -> r.getStudent().getName()).collect(Collectors.toList());
+        assertEquals(studentNames , Stream.of("tom" , "peter" , "jay").collect(Collectors.toList()));
+
+        Student student =em.find(Student.class , peter.getId());
+        List<String> courseNames = student.courseRegistrations.stream().map( c-> c.getCourse().getName()).collect(Collectors.toList());
+        assertEquals(courseNames , Stream.of("java", "python").collect(Collectors.toList()));
+
+        List<LocalDate> registionDates = peter.getCourseRegistrations().stream().map(r -> r.getRegistrationDate()).collect(Collectors.toList());
+        assertEquals(registionDates , Stream.of(LocalDate.of(2022 , 3 , 15) , LocalDate.of(2022 , 3 , 15)).collect(Collectors.toList()));
     }
 }
