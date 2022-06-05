@@ -1,4 +1,4 @@
-package com.springland365.jpafundamental.inheritance_join;
+package com.springland365.jpafundamental.inheritance.join;
 
 
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
 @Slf4j
-public class InheritanceTest {
+public class JoinTest {
 
     @Autowired
     EntityManager  entityManager ;
@@ -24,21 +24,21 @@ public class InheritanceTest {
     public void test()
     {
 
-        CircleEntity  circle = new CircleEntity();
+        Circle circle = new Circle();
         circle.setRadius(20);
         circle.setColor("Red");
 
 
         entityManager.persist(circle);
 
-        circle = new CircleEntity();
+        circle = new Circle();
         circle.setRadius(10);
         circle.setColor("Black");
 
         entityManager.persist(circle);
 
 
-        RectangleEntity rectangleEntity = new RectangleEntity();
+        Rectangle rectangleEntity = new Rectangle();
 
         rectangleEntity.setColor("Blue") ;
 
@@ -46,7 +46,7 @@ public class InheritanceTest {
 
 
         Query query = entityManager.createQuery(" select s from ShapeEntity s");
-        List<ShapeEntity> shapes = query.getResultList();
+        List<Shape> shapes = query.getResultList();
         assertEquals(shapes.size() , 3);
 
         shapes.stream().forEach( s -> log.info(s.toString()));
@@ -54,14 +54,14 @@ public class InheritanceTest {
 
         query = entityManager.createQuery(" select r from RectangleEntity r");
 
-        List<RectangleEntity> rectangleEntities = query.getResultList();
+        List<Rectangle> rectangleEntities = query.getResultList();
         assertEquals(rectangleEntities.size() , 1);
-        RectangleEntity  rect = rectangleEntities.get(0);
+        Rectangle rect = rectangleEntities.get(0);
         assertEquals(rect.getColor() , "Blue");
 
 
         query = entityManager.createQuery(" select c from CircleEntity c");
-        List<CircleEntity> circleEntities = query.getResultList();
+        List<Circle> circleEntities = query.getResultList();
         assertEquals(circleEntities.size() , 2);
 
     }

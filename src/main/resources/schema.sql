@@ -196,3 +196,18 @@ create table inheritance_join.tbl_rectangle (
     height int ,
     foreign key (shape_id) references tbl_shape(id)
 );
+
+
+create schema inheritance_singletable ;
+
+create table inheritance_singletable.tbl_shape
+(
+
+    id BIGINT auto_increment ,
+    type varchar(100),
+    color varchar(100),
+    radius int ,
+    width int ,
+    height int
+
+);
