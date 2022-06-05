@@ -172,4 +172,27 @@ create table dto.tbl_person (
     id BIGINT  auto_increment,
     first_name varchar(100),
     last_name varchar(100)
-)
+);
+
+
+create schema inheritance_join ;
+
+create table inheritance_join.tbl_shape (
+    id BIGINT auto_increment ,
+    color varchar(100)
+
+);
+
+create table inheritance_join.tbl_circle (
+    shape_id BIGINT ,
+    radius int ,
+    foreign key (shape_id) references tbl_shape(id)
+);
+
+
+create table inheritance_join.tbl_rectangle (
+    shape_id BIGINT ,
+    width int ,
+    height int ,
+    foreign key (shape_id) references tbl_shape(id)
+);
