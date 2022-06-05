@@ -5,13 +5,13 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@Entity
+@Entity(name="ShapeSingleTable")
 @Getter
 @Setter
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type")
 @Table(name="tbl_shape" , schema = "inheritance_singletable")
-public abstract class ShapeSingleTable {
+public abstract class Shape {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

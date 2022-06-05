@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
+@Transactional
 public class ManyToManyTest {
 
     @Autowired

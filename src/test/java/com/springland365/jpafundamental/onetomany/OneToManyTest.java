@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
 @Slf4j
+@Transactional
 public class OneToManyTest {
 
     @Autowired

@@ -6,11 +6,11 @@ import lombok.Setter;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-@Entity
+@Entity(name="RectangleSingleTable")
 @Getter
 @Setter
 @DiscriminatorValue("Rectangle")
-public class RectangleSingleTable extends ShapeSingleTable {
+public class Rectangle extends Shape {
 
     int width ;
 

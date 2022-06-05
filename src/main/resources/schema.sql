@@ -22,6 +22,11 @@ CREATE SEQUENCE product_sequence
   INCREMENT BY 100
   MINVALUE 1;
 
+CREATE SEQUENCE person_sequence
+  START WITH 1
+  INCREMENT BY 100
+  MINVALUE 1;
+
 
 CREATE SEQUENCE hibernate_sequence
   START WITH 1
@@ -210,4 +215,22 @@ create table inheritance_singletable.tbl_shape
     width int ,
     height int
 
+);
+
+
+create schema inheritance_tableperclass ;
+
+create table inheritance_tableperclass.tbl_circle (
+
+    id BIGINT auto_increment ,
+    color varchar(100) ,
+    radius int
+);
+
+
+create table inheritance_tableperclass.tbl_rectangle (
+    id BIGINT auto_increment ,
+    color varchar(100) ,
+    width int ,
+    height int
 );

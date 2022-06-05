@@ -2,10 +2,12 @@ package com.springland365.jpafundamental.simple;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
 
 @Slf4j
+@Transactional
 public class SimpleTest {
 
     @Autowired
@@ -25,6 +28,30 @@ public class SimpleTest {
     ProductSequenceIdRepo productSequenceIdRepo ;
 
     @Test
+    @Order(1)
+    public void testSequenceId()
+    {
+        ProductSequenceId  product = new ProductSequenceId();
+        product.setName("P1");
+
+        PersonSequenceId  person = new PersonSequenceId();
+        person.setName("James");
+
+        productSequenceIdRepo.save(product);
+        personSequenceIdRepo.save(person);
+
+        // person and product are backed by different sequence
+        // then the id can be same without conflict
+
+        log.info("Product id " + product.id);
+        log.info("Person id " + person.id);
+        assertEquals(product.id , person.id);
+    }
+
+
+
+    @Test
+    @Order(2)
     public void testProductIdentityIdCRUD()
     {
         ProductIdentityId product = new ProductIdentityId() ;
@@ -58,24 +85,5 @@ public class SimpleTest {
 
     }
 
-    @Test
-    public void testSequenceId()
-    {
-        ProductSequenceId  product = new ProductSequenceId();
-        product.setName("P1");
-
-        PersonSequenceId  person = new PersonSequenceId();
-        person.setName("James");
-
-        productSequenceIdRepo.save(product);
-        personSequenceIdRepo.save(person);
-
-        // person and product are backed by different sequence
-        // then the id can be same without conflict
-
-        log.info("Product id " + product.id);
-        log.info("Person id " + person.id);
-        assertEquals(product.id , person.id);
-    }
 
 }

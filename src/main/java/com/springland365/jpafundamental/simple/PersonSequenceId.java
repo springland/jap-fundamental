@@ -14,7 +14,8 @@ public class PersonSequenceId {
 
     @Id
     // use default hiberate_sequence
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE  ,generator = "person_sequence")
+    @SequenceGenerator(name = "person_sequence", sequenceName = "person_sequence", allocationSize = 100)
     Long id ;
 
     String name ;
