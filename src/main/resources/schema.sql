@@ -234,3 +234,47 @@ create table inheritance_tableperclass.tbl_rectangle (
     width int ,
     height int
 );
+
+
+
+create schema elementcollection ;
+
+create table elementcollection.tbl_user (
+    id BIGINT auto_increment ,
+    name varchar(100)
+);
+
+
+create table elementcollection.tbl_address (
+    id BIGINT auto_increment ,
+    user_id BIGINT ,
+    house_number varchar(100),
+    street varchar(100),
+    city varchar(100),
+    state varchar(100),
+    zip_code varchar(10)
+
+);
+
+create table elementcollection.tbl_phone (
+    id BIGINT auto_increment ,
+    user_id BIGINT ,
+
+    type varchar(100),
+    number varchar(100)
+);
+
+
+insert into elementcollection.tbl_user ( name ) values ('John');
+insert into elementcollection.tbl_user ( name ) values ('Peter');
+
+set @ID = ( select id from elementcollection.tbl_user where name = 'John');
+
+insert into elementcollection.tbl_address( user_id , house_number , street , city , state ,zip_code)
+values ( @ID , '7' , 'Second Street' , 'Stamford' , 'CT' , '06905');
+
+insert into elementcollection.tbl_phone ( user_id ,  type , number)
+values ( @ID , 'MOBILE' , '201-132-7505');
+
+insert into elementcollection.tbl_phone ( user_id ,  type , number)
+values ( @ID , 'OFFICE' , '201-323-1805');
