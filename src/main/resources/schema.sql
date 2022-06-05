@@ -164,3 +164,12 @@ create table manytomany.tbl_course_registration (
     registration_date date
 );
 
+
+create schema dto ;
+
+
+create table dto.tbl_person (
+    id BIGINT  auto_increment,
+    first_name varchar(100),
+    last_name varchar(100)
+)
